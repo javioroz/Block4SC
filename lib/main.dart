@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Hello World',
+      title: 'Block4SC',
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.green[800],

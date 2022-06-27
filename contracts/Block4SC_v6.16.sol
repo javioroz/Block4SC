@@ -2,7 +2,8 @@
 
 pragma solidity >=0.8.12;
 // it is required version 0.8.12 because funtion string.concat(string,string) is only available for this version or higher
-import "@openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
+// import "@openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
+import "openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
 
 // contract for "Blockchain for Supply Chain" dApp
 contract Block4SC {
