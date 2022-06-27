@@ -1,6 +1,6 @@
 # block4sc
 
-A new Flutter project.
+This is a Flutter project.
 
 ## Getting Started
 
@@ -14,3 +14,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## User interface
+
+This is the homescreen of the Dapp for container traceability.
+
+![Dapp Block4SC user interface](https://github.com/javioroz/block4sc/blob/main/assets/img/screenshot.png?raw=true)
