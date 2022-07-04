@@ -22,6 +22,7 @@ class Locations extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -36,6 +37,7 @@ class Locations extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -43,6 +45,7 @@ class Locations extends StatelessWidget {
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -57,8 +60,9 @@ class Locations extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.arrow_forward),
-        subtitle: Text('Result'),
+        subtitle: Text('resultAllLocations'),
       ),
       const Divider(), //----------------------------------------------------
     ];

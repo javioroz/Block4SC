@@ -22,12 +22,13 @@ class HomeTabs extends StatelessWidget {
       const Tab(icon: Icon(Icons.double_arrow), text: 'Transport'),
       const Tab(icon: Icon(Icons.warehouse), text: 'Locations'),
     ];
-    const _kDrawerHeader = UserAccountsDrawerHeader(
-      accountName: Text('Developer: Javier Oroz'),
-      accountEmail: Text('javioroz@proton.me'),
+    final _kDrawerHeader = UserAccountsDrawerHeader(
+      accountName: Text('Dapp: Blockchain 4 Supply Chain'),
+      accountEmail: Text('Developer: JaviOroz@proton.me'),
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.black,
-        child: FlutterLogo(size: 42.0),
+        //child: FlutterLogo(size: 42.0),
+        child: Image.asset('assets/img/B4SC_icon_512.png'),
       ),
     );
     final _kDrawerItems = ListView(
@@ -57,7 +58,15 @@ class HomeTabs extends StatelessWidget {
       length: _kTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Block4SC'),
+          title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                Icon(Icons.api),
+                Text('  Block4SC  '),
+                Icon(Icons.link),
+              ]),
+          //title: const Text('Block4SC'),
+          //leading: Image.asset('assets/img/B4SC_icon.png'),
           backgroundColor: Colors.green,
           bottom: TabBar(
             tabs: _kTabs,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class Containers extends StatelessWidget {
   const Containers({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     void _showButtonPressed() => ScaffoldMessenger.of(context).showSnackBar(
@@ -22,13 +21,15 @@ class Containers extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('create')),
       ),
       const ListTile(
-        leading: Icon(Icons.numbers),
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
           decoration: InputDecoration(hintText: 'Enter container ID'),
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -36,13 +37,15 @@ class Containers extends StatelessWidget {
         ),
       ),
       const ListTile(
-        leading: Icon(Icons.numbers),
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
           decoration: InputDecoration(hintText: 'Enter quantity'),
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -50,6 +53,7 @@ class Containers extends StatelessWidget {
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -63,6 +67,7 @@ class Containers extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -70,8 +75,9 @@ class Containers extends StatelessWidget {
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.arrow_forward),
-        subtitle: Text('Result'),
+        subtitle: Text('resultContainerData'), //resultContainerData
       ),
       const Divider(), //----------------------------------------------------
       const ListTile(
@@ -81,8 +87,9 @@ class Containers extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.arrow_forward),
-        subtitle: Text('Result'),
+        subtitle: Text('resultAllContIDs'),
       ),
       const Divider(),
     ];

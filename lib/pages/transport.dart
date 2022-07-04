@@ -22,15 +22,17 @@ class Transport extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
-        leading: Icon(Icons.numbers),
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
           decoration: InputDecoration(hintText: 'Enter Container ID'),
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.arrow_forward),
-        subtitle: Text('Result'),
+        subtitle: Text('resultSendCont'),
       ),
       const Divider(), //----------------------------------------------------
       const ListTile(
@@ -39,15 +41,17 @@ class Transport extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
-        leading: Icon(Icons.numbers),
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
           decoration: InputDecoration(hintText: 'Enter Container ID'),
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.arrow_forward),
-        subtitle: Text('Result'),
+        subtitle: Text('resultReceiveCont'),
       ),
       const Divider(), //----------------------------------------------------
     ];

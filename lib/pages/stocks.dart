@@ -22,6 +22,7 @@ class Stocks extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('create')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -29,7 +30,8 @@ class Stocks extends StatelessWidget {
         ),
       ),
       const ListTile(
-        leading: Icon(Icons.numbers),
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
           decoration: InputDecoration(hintText: 'Enter quantity'),
@@ -43,6 +45,7 @@ class Stocks extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -50,6 +53,7 @@ class Stocks extends StatelessWidget {
         ),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.abc),
         subtitle: TextField(
           maxLines: 1,
@@ -64,8 +68,9 @@ class Stocks extends StatelessWidget {
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
         leading: Icon(Icons.arrow_forward),
-        subtitle: Text('Result'),
+        subtitle: Text('resultAllMaterials'),
       ),
       const Divider(),
     ];
