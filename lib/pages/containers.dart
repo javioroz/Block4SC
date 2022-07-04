@@ -17,7 +17,7 @@ class Containers extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.add_circle),
-        title: Text('Set Container Data'),
+        title: Text('Set container data'),
         trailing: ElevatedButton(onPressed: null, child: Text('create')),
       ),
       const ListTile(
@@ -63,7 +63,7 @@ class Containers extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.remove_red_eye),
-        title: Text('Get Container Data'),
+        title: Text('Get container data'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
@@ -82,8 +82,7 @@ class Containers extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.remove_red_eye),
-        title: Text('View All Container IDs'),
-        subtitle: Text('It shows the list of all materials'),
+        title: Text('View all container IDs'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(

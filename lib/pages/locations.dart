@@ -18,7 +18,7 @@ class Locations extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.auto_awesome_mosaic),
-        title: Text('View Materials in a Location'),
+        title: Text('View materials in a location'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
@@ -29,11 +29,15 @@ class Locations extends StatelessWidget {
           decoration: InputDecoration(hintText: 'Enter material name'),
         ),
       ),
+      const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.arrow_forward),
+        subtitle: Text('resultAllMats'),
+      ),
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.countertops),
-        title: Text('View Quantity of a Materials in a Location'),
-        subtitle: Text('Enter material name and quantity'),
+        title: Text('View quantity of a material in a location'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
@@ -52,11 +56,15 @@ class Locations extends StatelessWidget {
           decoration: InputDecoration(hintText: 'Enter location name'),
         ),
       ),
+      const ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 60.0),
+        leading: Icon(Icons.arrow_forward),
+        subtitle: Text('resultQtyOfMatInLoc'),
+      ),
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.warehouse),
-        title: Text('View All Locations'),
-        subtitle: Text('It shows the list of all locations'),
+        title: Text('View a list of all locations'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(

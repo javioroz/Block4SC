@@ -18,7 +18,7 @@ class Stocks extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.add_circle),
-        title: Text('Create New Stock'),
+        title: Text('Create new stock'),
         trailing: ElevatedButton(onPressed: null, child: Text('create')),
       ),
       const ListTile(
@@ -40,8 +40,7 @@ class Stocks extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.remove_circle),
-        title: Text('Delete Stock'),
-        subtitle: Text('Enter material name and quantity'),
+        title: Text('Delete stock'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
@@ -63,8 +62,7 @@ class Stocks extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.remove_red_eye),
-        title: Text('View All Materials'),
-        subtitle: Text('It shows the list of all materials'),
+        title: Text('View list of all materials'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(

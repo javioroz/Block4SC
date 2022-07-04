@@ -13,12 +13,13 @@ class Transport extends StatelessWidget {
         );
     final listTiles = <Widget>[
       const ListTile(
-        title: Text('Here you can view and edit container data:'),
+        title: Text(
+            'Here you can set the timestamp when a container was sent and received:'),
       ),
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.send),
-        title: Text('Send Container'),
+        title: Text('Send container'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
@@ -26,7 +27,7 @@ class Transport extends StatelessWidget {
         leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
-          decoration: InputDecoration(hintText: 'Enter Container ID'),
+          decoration: InputDecoration(hintText: 'Enter container ID'),
         ),
       ),
       const ListTile(
@@ -37,7 +38,7 @@ class Transport extends StatelessWidget {
       const Divider(), //----------------------------------------------------
       const ListTile(
         leading: Icon(Icons.inbox),
-        title: Text('Received Container'),
+        title: Text('Received container'),
         trailing: ElevatedButton(onPressed: null, child: Text('show')),
       ),
       const ListTile(
@@ -45,7 +46,7 @@ class Transport extends StatelessWidget {
         leading: Icon(Icons.onetwothree),
         subtitle: TextField(
           maxLines: 1,
-          decoration: InputDecoration(hintText: 'Enter Container ID'),
+          decoration: InputDecoration(hintText: 'Enter container ID'),
         ),
       ),
       const ListTile(
