@@ -84,12 +84,12 @@ module.exports = {
   },
 
   contracts_directory: './contracts/', // solidity contracts path
-	contract_build_directory: './assets/contracts_abi/', 
+	contract_build_directory: './assets/abi/',  // solidity contracts abi path
   
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.14",      // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.15",      // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
         optimizer: {

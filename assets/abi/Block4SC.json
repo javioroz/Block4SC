@@ -1,4 +1,6 @@
-[
+{
+	"contractName": "Block4SC",
+	"abi": [
 	{
 		"inputs": [],
 		"name": "A_test1CreateStock",
@@ -258,4 +260,5 @@
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-]
+	]
+}
