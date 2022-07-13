@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'stocks.dart';
-import 'containers.dart';
-import 'transport.dart';
-import 'locations.dart';
-import '../main.dart';
+import 'pages/stocks.dart';
+import 'pages/containers.dart';
+import 'pages/transport.dart';
+import 'pages/locations.dart';
+import 'main.dart';
 
 class HomeTabs extends StatelessWidget {
   const HomeTabs({Key? key}) : super(key: key);

@@ -30,8 +30,8 @@ class EthereumUtils extends StateNotifier<bool> {
   EthPrivateKey? _credentials; // credentials of the smartcontract deployer
   DeployedContract? _contract;
 
-  ContractFunction? _getData; // name getter function in Block4SC.sol
-  ContractFunction? _setData; // name setter function in Block4SC.sol
+  ContractFunction? _userName; // name getter function in HelloName.sol
+  ContractFunction? _setName; // name setter function in HelloName.sol
 
   String? deployedName; // name from the smartcontract
 
@@ -49,7 +49,7 @@ class EthereumUtils extends StateNotifier<bool> {
   Future<void> getAbi() async {
     //Reading the contract ABI
     String abiStringFile =
-        await rootBundle.loadString("assets/abi/Block4SC.json");
+        await rootBundle.loadString("assets/abi/HelloName.json");
     var jsonAbi = jsonDecode(abiStringFile);
     _abi = jsonEncode(jsonAbi["abi"]);
 
@@ -63,31 +63,31 @@ class EthereumUtils extends StateNotifier<bool> {
 
   Future<void> getDeployedContracts() async {
     _contract = DeployedContract(
-        ContractAbi.fromJson(_abi!, "Block4SC"), _contractAddress!);
+        ContractAbi.fromJson(_abi!, "HelloName"), _contractAddress!);
 
     // Extracting the functions, declared in contract.
-    _getData = _contract!.function("getData");
-    _setData = _contract!.function("setData");
-    getData();
+    _userName = _contract!.function("userName");
+    _setName = _contract!.function("setName");
+    getName();
   }
 
-  getData() async {
+  getName() async {
     var currentName = await _ethClient!
-        .call(contract: _contract!, function: _getData!, params: []);
+        .call(contract: _contract!, function: _userName!, params: []);
     deployedName = currentName[0];
     isLoading = false;
     state = isLoading;
   }
 
-  setData(String nameToSet) async {
+  setName(String nameToSet) async {
     isLoading = true;
     state = isLoading;
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
             contract: _contract!,
-            function: _setData!,
+            function: _setName!,
             parameters: [nameToSet]));
-    getData();
+    getName();
   }
 }

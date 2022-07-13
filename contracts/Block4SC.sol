@@ -293,7 +293,7 @@ contract Block4SC {
      * @dev storeData value in variable
      * @param _data whatever temporal data, such us, json file in string format
      */
-    function storeData(string memory _data) private {
+    function setData(string memory _data) public {
         data = _data;
     }
 
@@ -301,7 +301,7 @@ contract Block4SC {
      * @dev getData string from variable
      * @return data from variable
      */
-    function getData() private view returns (string memory){
+    function getData() public view returns (string memory){
         return data;
     }
 
