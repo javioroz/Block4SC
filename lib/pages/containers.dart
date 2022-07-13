@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:block4sc/utils/eth.dart';
 
 class Containers extends StatelessWidget {
   const Containers({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    //ref.watch(ethUtilsProviders);
+    //final ethUtils = ref.watch(ethUtilsProviders.notifier);
+
     void _showButtonPressed() => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('button pressed'),
