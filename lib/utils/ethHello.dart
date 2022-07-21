@@ -18,9 +18,12 @@ class EthereumUtils extends StateNotifier<bool> {
   // The library web3dart won’t send signed transactions to miners
   // itself. Instead, it relies on an RPC client to do that. For the
   // WebSocket URL just modify the RPC URL.
-  final String _rpcUrl = "http://10.0.2.2:7545";
-  final String _wsUrl = "ws://10.0.2.2:7545/";
+  final String _rpcUrl = "http://127.0.0.1:7545"; // ganache url
+  final String _wsUrl = "ws://127.0.0.1:7545/";
+  //final String _rpcUrl = "http://10.0.2.2:7545";
+  //final String _wsUrl = "ws://10.0.2.2:7545/";
   final String _privateKey = dotenv.env['GANACHE_PRIVATE_KEY']!;
+  final String _helloAddress = dotenv.env['HELLO_CONTRACT_ADDRESS']!;
 
   // http.Client _httpClient;
   Web3Client? _ethClient; //connects to the ethereum rpc via WebSocket
@@ -53,8 +56,9 @@ class EthereumUtils extends StateNotifier<bool> {
     var jsonAbi = jsonDecode(abiStringFile);
     _abi = jsonEncode(jsonAbi["abi"]);
 
-    _contractAddress =
-        EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
+    _contractAddress = EthereumAddress.fromHex(_helloAddress);
+    //  EthereumAddress.fromHex("0x1BAcB7529618f2ABFD26E87E503f412dd78042F0");
+    //  EthereumAddress.fromHex(jsonAbi["networks"]["5777"]["address"]);
   }
 
   Future<void> getCredentials() async {

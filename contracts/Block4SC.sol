@@ -307,12 +307,4 @@ contract Block4SC {
 
     //-------------------------------------------------------------------------------------
 }
-/*
 
-Containers -> en vez de un array usar un maping de Containers
-
-Warehouses[A{}]
-
-frontend -> integrar con metamask (buscar plantilla) 
-
-*/

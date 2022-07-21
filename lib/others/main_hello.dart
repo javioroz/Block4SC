@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'homeTabs.dart';
+import 'pages/helloUI.dart';
 
 void main() async {
-  // loading the environment variables to our app
-  // in this case, only GANACHE_PRIVATE_KEY
   await dotenv.load(fileName: ".env");
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Block4SC',
+      title: 'Hello World',
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.green[800],
@@ -34,8 +32,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.dark(),
-      //------------------------------------------------------
-      home: HomeTabs(),
+      home: HelloUI(),
     );
   }
 }

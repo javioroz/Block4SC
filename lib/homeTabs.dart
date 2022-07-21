@@ -3,6 +3,7 @@ import 'pages/stocks.dart';
 import 'pages/containers.dart';
 import 'pages/transport.dart';
 import 'pages/locations.dart';
+import 'pages/helloUI.dart';
 import 'main.dart';
 
 class HomeTabs extends StatelessWidget {
@@ -11,12 +12,14 @@ class HomeTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
+      const Center(child: HelloUI()),
       const Center(child: Stocks()),
       const Center(child: Containers()),
       const Center(child: Transport()),
       const Center(child: Locations()),
     ];
     final _kTabs = <Tab>[
+      const Tab(icon: Icon(Icons.waving_hand), text: 'Hello'),
       const Tab(icon: Icon(Icons.auto_awesome_motion), text: 'Stocks'),
       const Tab(icon: Icon(Icons.archive), text: 'Containers'),
       const Tab(icon: Icon(Icons.double_arrow), text: 'Transport'),
@@ -43,7 +46,7 @@ class HomeTabs extends StatelessWidget {
           onTap: () => Navigator.of(context).push(_Action(2)),
         ),
         ListTile(
-          title: const Text('To test 2'),
+          title: const Text('To test 3'),
           onTap: () => Navigator.of(context).push(_Action(3)),
         ),
         const Divider(),
@@ -54,40 +57,47 @@ class HomeTabs extends StatelessWidget {
         ),
       ],
     );
-    return DefaultTabController(
-      length: _kTabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                Icon(Icons.api),
-                Text('  Block4SC  '),
-                Icon(Icons.link),
-              ]),
-          //title: const Text('Block4SC'),
-          //leading: Image.asset('assets/img/B4SC_icon.png'),
-          backgroundColor: Colors.green,
-          bottom: TabBar(
-            tabs: _kTabs,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        // this function minimizes touch keyboard
+        // when tapping on any part of screen
+      },
+      child: DefaultTabController(
+        length: _kTabs.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Icon(Icons.api),
+                  Text('  Block4SC  '),
+                  Icon(Icons.link),
+                ]),
+            //title: const Text('Block4SC'),
+            //leading: Image.asset('assets/img/B4SC_icon.png'),
+            backgroundColor: Colors.green,
+            bottom: TabBar(
+              tabs: _kTabs,
+            ),
+            actions: [
+              IconButton(
+                  icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
+                      ? Icons.dark_mode
+                      : Icons.light_mode),
+                  onPressed: () {
+                    MyApp.themeNotifier.value =
+                        MyApp.themeNotifier.value == ThemeMode.light
+                            ? ThemeMode.dark
+                            : ThemeMode.light;
+                  })
+            ],
           ),
-          actions: [
-            IconButton(
-                icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
-                    ? Icons.dark_mode
-                    : Icons.light_mode),
-                onPressed: () {
-                  MyApp.themeNotifier.value =
-                      MyApp.themeNotifier.value == ThemeMode.light
-                          ? ThemeMode.dark
-                          : ThemeMode.light;
-                })
-          ],
+          body: TabBarView(
+            children: _kTabPages,
+          ),
+          drawer: Drawer(child: _kDrawerItems),
         ),
-        body: TabBarView(
-          children: _kTabPages,
-        ),
-        drawer: Drawer(child: _kDrawerItems),
       ),
     );
   }
@@ -104,7 +114,7 @@ class _Action extends MaterialPageRoute<void> {
                 elevation: 1.0,
               ),
               body: Center(
-                child: Text('Test $id'),
+                child: Text('Test $id executed correctly'),
               ),
             );
           },
