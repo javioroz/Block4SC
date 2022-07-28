@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
+import 'package:http/http.dart' as http;
 
 final ethUtilsProviders = StateNotifierProvider<EthereumUtils, bool>((ref) {
   return EthereumUtils();
@@ -18,12 +18,14 @@ class EthereumUtils extends StateNotifier<bool> {
   // The library web3dart won’t send signed transactions to miners itself.
   // Instead, it relies on an RPC client to do that. _rpcUrl
   // For the WebSocket URL just modify the RPC URL. _wsUrl
-  final String _rpcUrl = "http://127.0.0.1:7545"; // ganache url
-  final String _wsUrl = "ws://127.0.0.1:7545/";
-  //final String _rpcUrl = "http://10.0.2.2:7545";
-  //final String _wsUrl = "ws://10.0.2.2:7545/";
+  // constants for web3client using local GANACHE blockchain
+  final String _ganacheRpcUrl = "http://127.0.0.1:7545";
+  final String _ganacheWsUrl = "ws://127.0.0.1:7545/";
   final String _privateKey = dotenv.env['GANACHE_PRIVATE_KEY']!;
   final String _block4scAddress = dotenv.env['BLOCK4SC_CONTRACT_ADDRESS']!;
+  // constants for web3client using INFURA to connect real blockchain
+  final String _infuraRpcUrl = dotenv.env['INFURA_URL']!;
+  final String _infuraWsUrl = dotenv.env['INFURA_WS']!;
 
   // http.Client _httpClient;
   Web3Client? _ethClient; // connects to the ethereum rpc via WebSocket
@@ -32,16 +34,30 @@ class EthereumUtils extends StateNotifier<bool> {
   EthereumAddress? _contractAddress; // address of the deployed contract
   EthPrivateKey? _credentials; // credentials of the smartcontract deployer
   DeployedContract? _contract; //where contract is declared, for Web3dart
-  ContractFunction? _getData; // name getter function in Block4SC.sol
-  ContractFunction? _setData; // name setter function in Block4SC.sol
-  String? deployedData; // name from the smartcontract
+  // contracts used in Hello tab
+  ContractFunction? _getData; // data getter function in Block4SC.sol
+  ContractFunction? _setData; // data setter function in Block4SC.sol
+  String? deployedData; // data from the smartcontract
+  // contracts used in Stocks tab
+  ContractFunction? _getAllMaterials;
+  ContractFunction? _createStock;
+  ContractFunction? _deleteStock;
+  // contracts used in Containes tab
+  // contracts used in Transport tab
+  // contracts used in Locations tab
 
   initialSetup() async {
-    http.Client _httpClient = http.Client();
-    _ethClient = Web3Client(_rpcUrl, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_wsUrl).cast<String>();
+    http.Client httpClient = http.Client();
+    // web3client using local ganache blockchain
+    _ethClient = Web3Client(_ganacheRpcUrl, httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(_ganacheWsUrl).cast<String>();
     });
-
+    // web3client using infura to connect real blockchain
+    /*
+    _ethClient = Web3Client(_infuraRpcUrl, httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(_infuraWsUrl).cast<String>();
+    });
+    */
     await getAbi();
     await getCredentials();
     await getDeployedContracts();
@@ -67,10 +83,15 @@ class EthereumUtils extends StateNotifier<bool> {
     _contract = DeployedContract(
         ContractAbi.fromJson(_abi!, "Block4SC"), _contractAddress!);
 
-    // Extracting the functions, declared in contract.
-    _getData = _contract!.function("getData");
+    // Extracting the functions, declared in contract:
+    //   funtions used in Hello tab
+    _getData = _contract!.function("data");
     _setData = _contract!.function("setData");
     getData();
+    //   funtions used in Stocks tab
+    _getAllMaterials = _contract!.function("getAllMaterials");
+    _createStock = _contract!.function("createStock");
+    _deleteStock = _contract!.function("deleteStock");
   }
 
   getData() async {
@@ -86,7 +107,6 @@ class EthereumUtils extends StateNotifier<bool> {
     // Setting the data to the variable data in the smart contract
     isLoading = true;
     state = isLoading;
-    // notifyListeners();
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
@@ -94,5 +114,35 @@ class EthereumUtils extends StateNotifier<bool> {
             function: _setData!,
             parameters: [dataToSet]));
     getData();
+  }
+
+  getAllMaterials() async {
+    var currentAllMats = await _ethClient!
+        .call(contract: _contract!, function: _getAllMaterials!, params: []);
+    deployedData = currentAllMats[0];
+    isLoading = false;
+    state = isLoading;
+  }
+
+  createStock(String materialToSet, int quantityToSet) async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!,
+            function: _createStock!,
+            parameters: [materialToSet, quantityToSet]));
+  }
+
+  deleteStock(String materialToSet, int quantityToSet) async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!,
+            function: _deleteStock!,
+            parameters: [materialToSet, quantityToSet]));
   }
 }

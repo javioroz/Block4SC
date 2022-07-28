@@ -15,6 +15,17 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Environment variables
+If you pull this repository, first it will be necessary to create a .env file to store the needed enviroment variables for this project. This file is in the .gitignore, so it is excluded from the  repository because it contains the wallet private key and other variables:
+
+```
+GANACHE_PRIVATE_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+BLOCK4SC_CONTRACT_ADDRESS="0x00000000000000000000000000000000000000000"
+HELLO_CONTRACT_ADDRESS="0x0000000000000000000000000000000000000000"
+
+BLOCK4SC_GOERLI_ADDRESS="0x0000000000000000000000000000000000000000"
+BLOCK4SC_MUMBAI_ADDRESS="0x0000000000000000000000000000000000000000"
+``"""``
 ## Block4SC User interface
 
 This is the homescreen of the Dapp for container traceability.

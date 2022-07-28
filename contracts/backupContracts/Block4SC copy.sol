@@ -2,7 +2,7 @@
 
 pragma solidity >=0.8.12;
 // it is required version 0.8.12 because funtion string.concat(string,string) is only available for this version or higher
-// import "@openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
+import "@openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
 // to install this dependency remember to execute:
 // >> npm install @openzeppelin/contracts --save 
 
@@ -164,7 +164,6 @@ contract Block4SC {
      * @dev getQuantityOfMatInLoc in the mapping(string => mapping(uint => uint))
      * @return container data in mapping by contID
      */
-     /*
     function getMaterialsInLoc(string memory _location) public view returns (string memory){
         string memory _material;
         //string[] memory _matList;
@@ -184,7 +183,7 @@ contract Block4SC {
             }
         }
         return _matList;
-    }*/
+    }
 
     /**
      * @dev getAllMaterials in the mapping(string => uint)
@@ -220,7 +219,6 @@ contract Block4SC {
      * @dev getAllContIDs in the mapping(uint => uint)
      * @return containerIDs list as a string concatenating the data in mapping by loc_i
      */
-     /*
     function getAllContIDs() public view returns (string memory){
         string memory _contID;
         string memory _contList;
@@ -230,7 +228,7 @@ contract Block4SC {
             _contList = string.concat(_contList, ", ");
         }
         return _contList;
-    }*/
+    }
 
     /**
      * @dev getContainerData in the mapping by contID
