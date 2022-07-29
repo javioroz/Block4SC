@@ -1,0 +1,276 @@
+{
+	"contractName": "Block4SC",
+	"abi": [
+		{
+			"inputs": [],
+			"name": "A_test1CreateStock",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "A_test2SetCont",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "A_test3Send",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_material",
+					"type": "string"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_quantity",
+					"type": "uint256"
+				}
+			],
+			"name": "createStock",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_material",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "_location",
+					"type": "string"
+				}
+			],
+			"name": "deleteStock",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_contID",
+					"type": "uint256"
+				}
+			],
+			"name": "receiveContainer",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_contID",
+					"type": "uint256"
+				}
+			],
+			"name": "sendContainer",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_contID",
+					"type": "uint256"
+				},
+				{
+					"internalType": "string",
+					"name": "_material",
+					"type": "string"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_quantity",
+					"type": "uint256"
+				},
+				{
+					"internalType": "string",
+					"name": "_origin",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "_destiny",
+					"type": "string"
+				}
+			],
+			"name": "setContData",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_data",
+					"type": "string"
+				}
+			],
+			"name": "setData",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"stateMutability": "nonpayable",
+			"type": "constructor"
+		},
+		{
+			"inputs": [],
+			"name": "data",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getAllLocations",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getAllMaterials",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_contID",
+					"type": "uint256"
+				}
+			],
+			"name": "getContData",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "contID",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "material",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "quantity",
+							"type": "uint256"
+						},
+						{
+							"internalType": "string",
+							"name": "origin",
+							"type": "string"
+						},
+						{
+							"internalType": "string",
+							"name": "destiny",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timeSent",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timeReceived",
+							"type": "uint256"
+						},
+						{
+							"internalType": "address",
+							"name": "editUser",
+							"type": "address"
+						}
+					],
+					"internalType": "struct Block4SC.Container",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getData",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_material",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "_location",
+					"type": "string"
+				}
+			],
+			"name": "getQuantityOfMatInLoc",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}
