@@ -24,6 +24,7 @@ contract Block4SC {
      * v6.16      | mapping cont_i and loc_i and add user to the container
      *            | created functions getAllLocations() and getAllContIDs()
      * v7.28      | constructor
+     * v8.02      | contID changed to string
      * productive version.
      */
     
@@ -34,7 +35,7 @@ contract Block4SC {
     }
     */
     struct Container {
-        uint contID;
+        string contID;
         string material;
         uint quantity;
         string origin;
@@ -44,7 +45,7 @@ contract Block4SC {
         address editUser;
     }
 
-    mapping(uint => Container) private containers_byID; // maps Container by contID
+    mapping(string => Container) private containers_byID; // maps Container by contID
     mapping(string => mapping(string => uint)) private quant_byMat_inLoc; // maps quantity by material and location
 
     uint numOfMaterials = 0;                       // number of different materials
@@ -56,8 +57,8 @@ contract Block4SC {
     mapping(string => uint) private loc_i;         // reverse maps index by location name
 
     uint numOfConts = 0;                           // number of different ContainerIDs
-    mapping(uint => uint) private contID_by_i;     // maps materials by index
-    mapping(uint => uint) private cont_i;          // reverse maps index by cont
+    mapping(uint => string) private contID_by_i;     // maps materials by index
+    mapping(string => uint) private cont_i;          // reverse maps index by cont
 
     string initLoc = "Manufacturer";
 
@@ -101,7 +102,7 @@ contract Block4SC {
      * @param _origin location
      * @param _destiny location
      */
-    function setContData(uint _contID, string memory _material, uint _quantity, string memory _origin, string memory _destiny) public {
+    function setContData(string memory _contID, string memory _material, uint _quantity, string memory _origin, string memory _destiny) public {
         containers_byID[_contID] = Container(_contID, _material, _quantity, _origin, _destiny, 0, 0, msg.sender);  
         if (loc_i[_origin]==0){ // if the origin does not exists in the list of locations, it is added to locations
             numOfLocs++;
@@ -125,7 +126,7 @@ contract Block4SC {
      * @dev sendContainer 
      * @param _contID identifier of the container
      */
-    function sendContainer(uint _contID) public {
+    function sendContainer(string memory _contID) public {
         // it is necessary to turn strings into bytes to compare
         require(keccak256(bytes(containers_byID[_contID].destiny)) != 0 , "This container has no destination assigned.");
         string memory _originLoc = containers_byID[_contID].origin;
@@ -140,7 +141,7 @@ contract Block4SC {
      * @dev receiveContainer 
      * @param _contID identifier of the container
      */
-    function receiveContainer(uint _contID) public {
+    function receiveContainer(string memory _contID) public {
         require( containers_byID[_contID].timeSent != 0 , "This container has not been sent yet.");
         string memory _destinyLoc = containers_byID[_contID].destiny;
         string memory _material = containers_byID[_contID].material;
@@ -220,23 +221,23 @@ contract Block4SC {
      * @dev getAllContIDs in the mapping(uint => uint)
      * @return containerIDs list as a string concatenating the data in mapping by loc_i
      */
-     /*
+     
     function getAllContIDs() public view returns (string memory){
         string memory _contID;
         string memory _contList;
         for (uint _i=1; _i<=numOfConts; _i++){
             _contID = locName_by_i[_i];
-            _contList = string.concat(_contList, Strings.toString(contID_by_i[_i]));
+            _contList = string.concat(_contList, contID_by_i[_i]);
             _contList = string.concat(_contList, ", ");
         }
         return _contList;
-    }*/
+    }
 
     /**
      * @dev getContainerData in the mapping by contID
      * @return container data in mapping by contID
      */
-    function getContData(uint _contID) public view returns (Container memory){
+    function getContData(string memory _contID) public view returns (Container memory){
         return containers_byID[_contID];
     }
 
@@ -244,7 +245,7 @@ contract Block4SC {
      * @dev getOrigin in the mapping by contID
      * @return container data in mapping by contID
      */
-    function getContOrigin(uint _contID) private view returns (string memory){
+    function getContOrigin(string memory _contID) private view returns (string memory){
         return containers_byID[_contID].origin;
     }
 
@@ -252,7 +253,7 @@ contract Block4SC {
      * @dev getDestiny in the mapping by contID
      * @return container data in mapping by contID
      */
-    function getContDestiny(uint _contID) private view returns (string memory){
+    function getContDestiny(string memory _contID) private view returns (string memory){
         return containers_byID[_contID].destiny;
     }
 
@@ -274,13 +275,13 @@ contract Block4SC {
      */
      function A_test2SetCont() public {
          //setContData(containerID, material, quantity, originLoc, destinyWH)
-        setContData(1231, "Secadoras_A", 50, "Manufacturer", "Warehouse_ES");
-        setContData(1232, "Lavadoras_B", 50, "Manufacturer", "Warehouse_FR");
-        setContData(1233, "Lavavajillas_A", 100, "Manufacturer", "Warehouse_FR");
-        setContData(1234, "Secadoras_A", 20, "Warehouse_ES", "Warehouse_FR");
-        setContData(1235, "Lavavajillas_A", 20, "Warehouse_FR", "Warehouse_DE");
-        setContData(1236, "Lavavajillas_A", 20, "Warehouse_FR", "Warehouse_ES");
-        setContData(1237, "Lavadoras_B", 30, "Warehouse_FR", "Warehouse_ES");
+        setContData("1231", "Secadoras_A", 50, "Manufacturer", "Warehouse_ES");
+        setContData("1232", "Lavadoras_B", 50, "Manufacturer", "Warehouse_FR");
+        setContData("1233", "Lavavajillas_A", 100, "Manufacturer", "Warehouse_FR");
+        setContData("1234", "Secadoras_A", 20, "Warehouse_ES", "Warehouse_FR");
+        setContData("1235", "Lavavajillas_A", 20, "Warehouse_FR", "Warehouse_DE");
+        setContData("1236", "Lavavajillas_A", 20, "Warehouse_FR", "Warehouse_ES");
+        setContData("1237", "Lavadoras_B", 30, "Warehouse_FR", "Warehouse_ES");
     }
 
     /**
@@ -314,4 +315,3 @@ contract Block4SC {
 
     //-------------------------------------------------------------------------------------
 }
-

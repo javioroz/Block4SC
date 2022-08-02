@@ -16,9 +16,9 @@ class EthereumUtils extends StateNotifier<bool> {
     initialSetup();
   }
 
-  // The library web3dart won’t send signed transactions to miners itself.
-  // Instead, it relies on an RPC client to do that. _rpcUrl
-  // For the WebSocket URL just modify the RPC URL. _wsUrl
+  // --------------------------------------------------------------------
+  // RPC client (URL+WebSocket): to interact with blockchain
+  // --------------------------------------------------------------------
   // constants for web3client using local GANACHE blockchain
   final String _ganacheRpcUrl = "http://127.0.0.1:7545";
   final String _ganacheWsUrl = "ws://127.0.0.1:7545/";
@@ -27,19 +27,24 @@ class EthereumUtils extends StateNotifier<bool> {
   // constants for web3client using INFURA to connect real blockchain
   final String _infuraRpcUrl = dotenv.env['INFURA_URL']!;
   final String _infuraWsUrl = dotenv.env['INFURA_WS']!;
-
+  // --------------------------------------------------------------------
   // http.Client _httpClient;
+  // --------------------------------------------------------------------
   Web3Client? _ethClient; // connects to the ethereum rpc via WebSocket
   bool isLoading = true; // checks the state of the contract
   String? _abi;
   EthereumAddress? _contractAddress; // address of the deployed contract
   EthPrivateKey? _credentials; // credentials of the smartcontract deployer
   DeployedContract? _contract; //where contract is declared, for Web3dart
+  // --------------------------------------------------------------------
   // contracts used in Hello tab
+  // --------------------------------------------------------------------
   ContractFunction? _getData; // data getter function in Block4SC.sol
   ContractFunction? _setData; // data setter function in Block4SC.sol
   String? deployedData; // data from the smartcontract
+  // --------------------------------------------------------------------
   // contracts used in Stocks tab
+  // --------------------------------------------------------------------
   ContractFunction? _createStock;
   String? matCreated = "";
   String? qtyCreated = "";
@@ -48,7 +53,19 @@ class EthereumUtils extends StateNotifier<bool> {
   String? locDeleted = "";
   ContractFunction? _getAllMaterials;
   String? allMats = "";
+  // --------------------------------------------------------------------
   // contracts used in Containes tab
+  // --------------------------------------------------------------------
+  ContractFunction? _setContData;
+  String? contSaved = "";
+  String? matSaved = "";
+  String? qtySaved = "";
+  String? origSaved = "";
+  String? destSaved = "";
+  ContractFunction? _getContData;
+  String? contData = "";
+  ContractFunction? _getAllContIDs;
+  String? allContIDs = "";
   // contracts used in Transport tab
   // contracts used in Locations tab
 
@@ -98,8 +115,15 @@ class EthereumUtils extends StateNotifier<bool> {
     _createStock = _contract!.function("createStock");
     _deleteStock = _contract!.function("deleteStock");
     _getAllMaterials = _contract!.function("getAllMaterials");
+    //   funtions used in Containers tab
+    _setContData = _contract!.function("setContData");
+    _getContData = _contract!.function("getContData");
+    //_getAllContIDs = _contract!.function("getAllContIDs");
   }
 
+  // --------------------------------------------------------------------
+  // contracts used in Hello tab
+  // --------------------------------------------------------------------
   getData() async {
     // Getting the current data variable declared in the smart contract.
     var currentData = await _ethClient!
@@ -122,6 +146,9 @@ class EthereumUtils extends StateNotifier<bool> {
     getData();
   }
 
+  // --------------------------------------------------------------------
+  // contracts used in Stocks tab
+  // --------------------------------------------------------------------
   createStock(String sMatToSet, String sQuantityToSet) async {
     isLoading = true;
     state = isLoading;
@@ -159,6 +186,60 @@ class EthereumUtils extends StateNotifier<bool> {
     var currentAllMats = await _ethClient!
         .call(contract: _contract!, function: _getAllMaterials!, params: []);
     allMats = currentAllMats[0];
+    isLoading = false;
+    state = isLoading;
+  }
+
+  // --------------------------------------------------------------------
+  // contracts used in Containers tab
+  // --------------------------------------------------------------------
+  setContData(String sContToSet, String sMatToSet, String sQtyToSet,
+      String sOrigToSet, String sDestToSet) async {
+    isLoading = true;
+    state = isLoading;
+    BigInt iQtyToSet = BigInt.from(int.parse(sQtyToSet));
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!,
+            function: _setContData!,
+            parameters: [
+              sContToSet,
+              sMatToSet,
+              iQtyToSet,
+              sOrigToSet,
+              sDestToSet
+            ]));
+    contSaved = sContToSet;
+    matSaved = sMatToSet;
+    qtySaved = sQtyToSet;
+    origSaved = sOrigToSet;
+    destSaved = sDestToSet;
+    isLoading = false;
+    state = isLoading;
+  }
+
+  getContData(String sContToGet) async {
+    isLoading = true;
+    state = isLoading;
+    var currentContData = await _ethClient!.call(
+        contract: _contract!, function: _getContData!, params: [sContToGet]);
+    String sContID = currentContData[0].toString();
+    String sMat = currentContData[1];
+    String sQty = currentContData[2].toString();
+    String sOrig = currentContData[3];
+    String sDest = currentContData[4];
+    contData = "$sContID, Mat: $sMat, Qty: $sQty, Orig: $sOrig, Dest: $sDest";
+    isLoading = false;
+    state = isLoading;
+  }
+
+  getAllContIDs() async {
+    isLoading = true;
+    state = isLoading;
+    var currentAllMats = await _ethClient!
+        .call(contract: _contract!, function: _getAllContIDs!, params: []);
+    allContIDs = currentAllMats[0];
     isLoading = false;
     state = isLoading;
   }

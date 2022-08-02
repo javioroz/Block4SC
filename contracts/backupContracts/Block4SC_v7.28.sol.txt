@@ -2,7 +2,7 @@
 
 pragma solidity >=0.8.12;
 // it is required version 0.8.12 because funtion string.concat(string,string) is only available for this version or higher
-import "@openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
+// import "@openzeppelin/contracts/utils/Strings.sol"; // it is required this library to use function Strings.toString(uint)
 // to install this dependency remember to execute:
 // >> npm install @openzeppelin/contracts --save 
 
@@ -27,12 +27,12 @@ contract Block4SC {
      * productive version.
      */
     
-    // string public data = "{'contID': 123456, 'material': 'doors', 'quantity': '10', 'origin': WH001, 'destiny': WH002, 'timeSent': '2022.02.03 23:02:00'}";
-    string public data;
+    string public data = "{'contID': 123456, 'material': 'doors', 'quantity': '10', 'origin': WH001, 'destiny': WH002, 'timeSent': '2022.02.03 23:02:00'}";
+    /* string public data;
     constructor(){
         data = " Hola ";
     }
-
+    */
     struct Container {
         uint contID;
         string material;
@@ -72,7 +72,7 @@ contract Block4SC {
      */
     function createStock(string memory _material, uint _quantity) public {
         if (mat_i[_material]==0){   // if it´s the first time this material is created
-            if (loc_i[initLoc]==0){ // if it´s the first material, the initLocation must be created for first tim
+            if (loc_i[initLoc]==0){ // if it´s the first material, the initLocation must be created for first time
                 numOfLocs=1;
                 loc_i[initLoc]=numOfLocs;
                 locName_by_i[numOfLocs]=initLoc;
@@ -164,6 +164,7 @@ contract Block4SC {
      * @dev getQuantityOfMatInLoc in the mapping(string => mapping(uint => uint))
      * @return container data in mapping by contID
      */
+     /*
     function getMaterialsInLoc(string memory _location) public view returns (string memory){
         string memory _material;
         //string[] memory _matList;
@@ -183,7 +184,7 @@ contract Block4SC {
             }
         }
         return _matList;
-    }
+    }*/
 
     /**
      * @dev getAllMaterials in the mapping(string => uint)
@@ -219,6 +220,7 @@ contract Block4SC {
      * @dev getAllContIDs in the mapping(uint => uint)
      * @return containerIDs list as a string concatenating the data in mapping by loc_i
      */
+     /*
     function getAllContIDs() public view returns (string memory){
         string memory _contID;
         string memory _contList;
@@ -228,7 +230,7 @@ contract Block4SC {
             _contList = string.concat(_contList, ", ");
         }
         return _contList;
-    }
+    }*/
 
     /**
      * @dev getContainerData in the mapping by contID

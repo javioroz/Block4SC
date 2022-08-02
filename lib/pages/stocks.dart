@@ -30,7 +30,6 @@ class _StocksState extends ConsumerState<Stocks> {
             : ListView(children: <Widget>[
                 const ListTile(
                   title: Text('Here you can view and edit stock data:'),
-                  //subtitle: Text(ethUtils.deployedData!),
                 ),
                 const Divider(), //----------------------------------------------------
 
