@@ -10,8 +10,13 @@ class Stocks extends ConsumerStatefulWidget {
 }
 
 class _StocksState extends ConsumerState<Stocks> {
-  final TextEditingController _matNameController = TextEditingController();
-  final TextEditingController _matQtyController = TextEditingController();
+  final TextEditingController _createMatNameController =
+      TextEditingController();
+  final TextEditingController _createMatQtyController = TextEditingController();
+  final TextEditingController _deleteMatNameController =
+      TextEditingController();
+  final TextEditingController _deleteLocNameController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,7 @@ class _StocksState extends ConsumerState<Stocks> {
             : ListView(children: <Widget>[
                 const ListTile(
                   title: Text('Here you can view and edit stock data:'),
+                  //subtitle: Text(ethUtils.deployedData!),
                 ),
                 const Divider(), //----------------------------------------------------
 
@@ -32,12 +38,21 @@ class _StocksState extends ConsumerState<Stocks> {
                   // title + create stock button
                   leading: const Icon(Icons.add_circle),
                   title: const Text('Create new stock'),
+                  subtitle: Row(children: [
+                    const Text("              "),
+                    const Text("Last created:  "),
+                    Text(ethUtils.matCreated!),
+                    const Text("  "),
+                    Text(ethUtils.qtyCreated!),
+                  ]),
                   trailing: ElevatedButton(
                       child: const Text('create'),
                       onPressed: () {
-                        if (_matNameController.text.isEmpty) return;
-                        ethUtils.setData(_matNameController.text);
-                        _matNameController.clear();
+                        if (_createMatNameController.text.isEmpty) return;
+                        ethUtils.createStock(_createMatNameController.text,
+                            _createMatQtyController.text);
+                        _createMatNameController.clear();
+                        _createMatQtyController.clear();
                       }),
                 ),
 
@@ -45,7 +60,7 @@ class _StocksState extends ConsumerState<Stocks> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.abc),
                   subtitle: TextField(
-                    controller: _matNameController,
+                    controller: _createMatNameController,
                     maxLines: 1,
                     decoration:
                         const InputDecoration(hintText: 'Enter material name'),
@@ -56,7 +71,7 @@ class _StocksState extends ConsumerState<Stocks> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.onetwothree),
                   subtitle: TextField(
-                    controller: _matQtyController,
+                    controller: _createMatQtyController,
                     maxLines: 1,
                     decoration:
                         const InputDecoration(hintText: 'Enter quantity'),
@@ -67,19 +82,28 @@ class _StocksState extends ConsumerState<Stocks> {
                 ListTile(
                   leading: const Icon(Icons.remove_circle),
                   title: const Text('Delete stock'),
+                  subtitle: Row(children: [
+                    const Text("              "),
+                    const Text("Last deleted:  "),
+                    Text(ethUtils.matDeleted!),
+                    const Text("  "),
+                    Text(ethUtils.locDeleted!),
+                  ]),
                   trailing: ElevatedButton(
                       child: const Text('delete'),
                       onPressed: () {
-                        if (_matNameController.text.isEmpty) return;
-                        ethUtils.setData(_matNameController.text);
-                        _matNameController.clear();
+                        if (_deleteMatNameController.text.isEmpty) return;
+                        ethUtils.deleteStock(_deleteMatNameController.text,
+                            _deleteLocNameController.text);
+                        _deleteMatNameController.clear();
+                        _deleteLocNameController.clear();
                       }),
                 ),
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.abc),
                   subtitle: TextField(
-                    controller: _matNameController,
+                    controller: _deleteMatNameController,
                     maxLines: 1,
                     decoration:
                         const InputDecoration(hintText: 'Enter material name'),
@@ -89,7 +113,7 @@ class _StocksState extends ConsumerState<Stocks> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.abc),
                   subtitle: TextField(
-                    controller: _matQtyController,
+                    controller: _deleteLocNameController,
                     maxLines: 1,
                     decoration:
                         const InputDecoration(hintText: 'Enter location name'),
@@ -102,16 +126,16 @@ class _StocksState extends ConsumerState<Stocks> {
                   trailing: ElevatedButton(
                       child: const Text('show'),
                       onPressed: () {
-                        if (_matNameController.text.isEmpty) return;
-                        ethUtils.getData();
-                        _matNameController.clear();
+                        ethUtils.getAllMaterials();
                       }),
                 ),
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.arrow_forward),
                   //subtitle: Text('resultAllMaterials'),
-                  subtitle: Text(ethUtils.deployedData!),
+                  subtitle: Row(children: [
+                    Text(ethUtils.allMats!),
+                  ]),
                 ),
                 const Divider(),
               ]),

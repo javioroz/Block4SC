@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,9 +40,14 @@ class EthereumUtils extends StateNotifier<bool> {
   ContractFunction? _setData; // data setter function in Block4SC.sol
   String? deployedData; // data from the smartcontract
   // contracts used in Stocks tab
-  ContractFunction? _getAllMaterials;
   ContractFunction? _createStock;
+  String? matCreated = "";
+  String? qtyCreated = "";
   ContractFunction? _deleteStock;
+  String? matDeleted = "";
+  String? locDeleted = "";
+  ContractFunction? _getAllMaterials;
+  String? allMats = "";
   // contracts used in Containes tab
   // contracts used in Transport tab
   // contracts used in Locations tab
@@ -89,9 +95,9 @@ class EthereumUtils extends StateNotifier<bool> {
     _setData = _contract!.function("setData");
     getData();
     //   funtions used in Stocks tab
-    _getAllMaterials = _contract!.function("getAllMaterials");
     _createStock = _contract!.function("createStock");
     _deleteStock = _contract!.function("deleteStock");
+    _getAllMaterials = _contract!.function("getAllMaterials");
   }
 
   getData() async {
@@ -116,26 +122,23 @@ class EthereumUtils extends StateNotifier<bool> {
     getData();
   }
 
-  getAllMaterials() async {
-    var currentAllMats = await _ethClient!
-        .call(contract: _contract!, function: _getAllMaterials!, params: []);
-    deployedData = currentAllMats[0];
-    isLoading = false;
-    state = isLoading;
-  }
-
-  createStock(String materialToSet, int quantityToSet) async {
+  createStock(String sMatToSet, String sQuantityToSet) async {
     isLoading = true;
     state = isLoading;
+    BigInt iQuantityToSet = BigInt.from(int.parse(sQuantityToSet));
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
             contract: _contract!,
             function: _createStock!,
-            parameters: [materialToSet, quantityToSet]));
+            parameters: [sMatToSet, iQuantityToSet]));
+    matCreated = sMatToSet;
+    qtyCreated = sQuantityToSet;
+    isLoading = false;
+    state = isLoading;
   }
 
-  deleteStock(String materialToSet, int quantityToSet) async {
+  deleteStock(String sMatToSet, String sLocDeleted) async {
     isLoading = true;
     state = isLoading;
     await _ethClient!.sendTransaction(
@@ -143,6 +146,20 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _deleteStock!,
-            parameters: [materialToSet, quantityToSet]));
+            parameters: [sMatToSet, sLocDeleted]));
+    matDeleted = sMatToSet;
+    locDeleted = sLocDeleted;
+    isLoading = false;
+    state = isLoading;
+  }
+
+  getAllMaterials() async {
+    isLoading = true;
+    state = isLoading;
+    var currentAllMats = await _ethClient!
+        .call(contract: _contract!, function: _getAllMaterials!, params: []);
+    allMats = currentAllMats[0];
+    isLoading = false;
+    state = isLoading;
   }
 }

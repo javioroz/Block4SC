@@ -27,12 +27,12 @@ contract Block4SC {
      * productive version.
      */
     
-    // string public data = "{'contID': 123456, 'material': 'doors', 'quantity': '10', 'origin': WH001, 'destiny': WH002, 'timeSent': '2022.02.03 23:02:00'}";
-    string public data;
+    string public data = "{'contID': 123456, 'material': 'doors', 'quantity': '10', 'origin': WH001, 'destiny': WH002, 'timeSent': '2022.02.03 23:02:00'}";
+    /* string public data;
     constructor(){
         data = " Hola ";
     }
-
+    */
     struct Container {
         uint contID;
         string material;
@@ -72,7 +72,7 @@ contract Block4SC {
      */
     function createStock(string memory _material, uint _quantity) public {
         if (mat_i[_material]==0){   // if it´s the first time this material is created
-            if (loc_i[initLoc]==0){ // if it´s the first material, the initLocation must be created for first tim
+            if (loc_i[initLoc]==0){ // if it´s the first material, the initLocation must be created for first time
                 numOfLocs=1;
                 loc_i[initLoc]=numOfLocs;
                 locName_by_i[numOfLocs]=initLoc;

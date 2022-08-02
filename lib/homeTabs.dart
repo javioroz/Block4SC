@@ -12,7 +12,6 @@ class HomeTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
-      const Center(child: Center(child: Text('Welcome to Block4SC dapp'))),
       const Center(child: HelloUI()),
       const Center(child: Stocks()),
       const Center(child: Containers()),
@@ -20,7 +19,6 @@ class HomeTabs extends StatelessWidget {
       const Center(child: Locations()),
     ];
     final _kTabs = <Tab>[
-      const Tab(icon: Icon(Icons.front_hand), text: 'Welcome'),
       const Tab(icon: Icon(Icons.waving_hand), text: 'Hello'),
       const Tab(icon: Icon(Icons.auto_awesome_motion), text: 'Stocks'),
       const Tab(icon: Icon(Icons.archive), text: 'Containers'),
