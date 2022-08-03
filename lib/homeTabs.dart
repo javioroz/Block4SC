@@ -1,3 +1,4 @@
+import 'package:block4sc/pages/tests.dart';
 import 'package:flutter/material.dart';
 import 'pages/stocks.dart';
 import 'pages/containers.dart';
@@ -5,6 +6,8 @@ import 'pages/transport.dart';
 import 'pages/locations.dart';
 import 'pages/helloUI.dart';
 import 'main.dart';
+import '../utils/eth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeTabs extends StatelessWidget {
   const HomeTabs({Key? key}) : super(key: key);
@@ -12,22 +15,20 @@ class HomeTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _kTabPages = <Widget>[
-      const Center(child: HelloUI()),
       const Center(child: Stocks()),
       const Center(child: Containers()),
       const Center(child: Transport()),
       const Center(child: Locations()),
     ];
     final _kTabs = <Tab>[
-      const Tab(icon: Icon(Icons.waving_hand), text: 'Hello'),
       const Tab(icon: Icon(Icons.auto_awesome_motion), text: 'Stocks'),
       const Tab(icon: Icon(Icons.archive), text: 'Containers'),
       const Tab(icon: Icon(Icons.double_arrow), text: 'Transport'),
       const Tab(icon: Icon(Icons.warehouse), text: 'Locations'),
     ];
     final _kDrawerHeader = UserAccountsDrawerHeader(
-      accountName: Text('Dapp: Blockchain 4 Supply Chain'),
-      accountEmail: Text('Developer: JaviOroz@proton.me'),
+      accountName: const Text('Dapp: Blockchain 4 Supply Chain'),
+      accountEmail: const Text('Developer: JaviOroz@proton.me'),
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.black,
         //child: FlutterLogo(size: 42.0),
@@ -38,16 +39,13 @@ class HomeTabs extends StatelessWidget {
       children: <Widget>[
         _kDrawerHeader,
         ListTile(
-          title: const Text('To test 1'),
-          onTap: () => Navigator.of(context).push(_Action(1)),
+          title: const Text('Hello'),
+          onTap: () => Navigator.of(context).push(_GoToHello()),
         ),
+        const Divider(),
         ListTile(
-          title: const Text('To test 2'),
-          onTap: () => Navigator.of(context).push(_Action(2)),
-        ),
-        ListTile(
-          title: const Text('To test 3'),
-          onTap: () => Navigator.of(context).push(_Action(3)),
+          title: const Text('Tests'),
+          onTap: () => Navigator.of(context).push(_GoToTests()),
         ),
         const Divider(),
         ListTile(
@@ -103,18 +101,34 @@ class HomeTabs extends StatelessWidget {
   }
 }
 
-// <void> means this route returns nothing.
-class _Action extends MaterialPageRoute<void> {
-  _Action(int id)
+class _GoToHello extends MaterialPageRoute<void> {
+  _GoToHello()
       : super(
           builder: (BuildContext context) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Test $id'),
+                title: const Text('Hola'),
                 elevation: 1.0,
               ),
-              body: Center(
-                child: Text('Test $id executed correctly'),
+              body: const Center(
+                child: HelloUI(),
+              ),
+            );
+          },
+        );
+}
+
+class _GoToTests extends MaterialPageRoute<void> {
+  _GoToTests()
+      : super(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Tests'),
+                elevation: 1.0,
+              ),
+              body: const Center(
+                child: Tests(),
               ),
             );
           },

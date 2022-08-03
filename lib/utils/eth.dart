@@ -19,16 +19,13 @@ class EthereumUtils extends StateNotifier<bool> {
   // --------------------------------------------------------------------
   // RPC client (URL+WebSocket): to interact with blockchain
   // --------------------------------------------------------------------
-  // constants for web3client using local GANACHE blockchain
-  final String _ganacheRpcUrl = "http://127.0.0.1:7545";
-  final String _ganacheWsUrl = "ws://127.0.0.1:7545/";
-  final String _privateKey = dotenv.env['GANACHE_PRIVATE_KEY']!;
-  final String _block4scAddress = dotenv.env['BLOCK4SC_CONTRACT_ADDRESS']!;
-  // constants for web3client using INFURA to connect real blockchain
-  final String _infuraRpcUrl = dotenv.env['INFURA_URL']!;
-  final String _infuraWsUrl = dotenv.env['INFURA_WS']!;
+  // constants for web3client using blockchain parameters defined in .env file
+  final String _ganacheRpcUrl = dotenv.env['RPC_URL']!;
+  final String _ganacheWsUrl = dotenv.env['RPC_WS']!;
+  final String _privateKey = dotenv.env['PRIVATE_KEY']!;
+  final String _block4scAddress = dotenv.env['CONTRACT_ADDRESS']!;
   // --------------------------------------------------------------------
-  // http.Client _httpClient;
+  // http.Client for web3 and contract info
   // --------------------------------------------------------------------
   Web3Client? _ethClient; // connects to the ethereum rpc via WebSocket
   bool isLoading = true; // checks the state of the contract
@@ -37,13 +34,13 @@ class EthereumUtils extends StateNotifier<bool> {
   EthPrivateKey? _credentials; // credentials of the smartcontract deployer
   DeployedContract? _contract; //where contract is declared, for Web3dart
   // --------------------------------------------------------------------
-  // contracts used in Hello tab
+  // functions and variables used in Hello tab
   // --------------------------------------------------------------------
   ContractFunction? _getData; // data getter function in Block4SC.sol
   ContractFunction? _setData; // data setter function in Block4SC.sol
   String? deployedData; // data from the smartcontract
   // --------------------------------------------------------------------
-  // contracts used in Stocks tab
+  // functions and variables used in Stocks tab
   // --------------------------------------------------------------------
   ContractFunction? _createStock;
   String? matCreated = "";
@@ -54,7 +51,7 @@ class EthereumUtils extends StateNotifier<bool> {
   ContractFunction? _getAllMaterials;
   String? allMats = "";
   // --------------------------------------------------------------------
-  // contracts used in Containes tab
+  // functions and variables used in Containes tab
   // --------------------------------------------------------------------
   ContractFunction? _setContData;
   String? contSaved = "";
@@ -66,9 +63,32 @@ class EthereumUtils extends StateNotifier<bool> {
   String? contData = "";
   ContractFunction? _getAllContIDs;
   String? allContIDs = "";
-  // contracts used in Transport tab
-  // contracts used in Locations tab
+  // --------------------------------------------------------------------
+  // functions and variables used in Transport tab
+  // --------------------------------------------------------------------
+  ContractFunction? _sendContainer;
+  String? timeSent = "";
+  ContractFunction? _receiveContainer;
+  String? timeReceived = "";
+  // --------------------------------------------------------------------
+  // functions and variables used in Locations tab
+  // --------------------------------------------------------------------
+  ContractFunction? _getMaterialsInLoc;
+  String? matsInLoc = "";
+  ContractFunction? _getQuantityOfMatInLoc;
+  String? matQtyInLoc = "";
+  ContractFunction? _getAllLocations;
+  String? allLocs = "";
+  // --------------------------------------------------------------------
+  // functions and variables used in Test menu
+  // --------------------------------------------------------------------
+  ContractFunction? _test1CreateStock;
+  ContractFunction? _test2SetCont;
+  ContractFunction? _test3Send;
 
+  // --------------------------------------------------------------------
+  // Futures to initialize contract and functions
+  // --------------------------------------------------------------------
   initialSetup() async {
     http.Client httpClient = http.Client();
     // web3client using local ganache blockchain
@@ -118,11 +138,22 @@ class EthereumUtils extends StateNotifier<bool> {
     //   funtions used in Containers tab
     _setContData = _contract!.function("setContData");
     _getContData = _contract!.function("getContData");
-    //_getAllContIDs = _contract!.function("getAllContIDs");
+    _getAllContIDs = _contract!.function("getAllContIDs");
+    //   funtions used in Transport tab
+    _sendContainer = _contract!.function("sendContainer");
+    _receiveContainer = _contract!.function("receiveContainer");
+    //   funtions used in Locations tab
+    _getMaterialsInLoc = _contract!.function("getMaterialsInLoc");
+    _getQuantityOfMatInLoc = _contract!.function("getQuantityOfMatInLoc");
+    _getAllLocations = _contract!.function("getAllLocations");
+    //   funtions used in Test menu
+    _test1CreateStock = _contract!.function("test1CreateStock");
+    _test2SetCont = _contract!.function("test2SetCont");
+    _test3Send = _contract!.function("test3Send");
   }
 
   // --------------------------------------------------------------------
-  // contracts used in Hello tab
+  // functions used in Hello tab
   // --------------------------------------------------------------------
   getData() async {
     // Getting the current data variable declared in the smart contract.
@@ -147,7 +178,7 @@ class EthereumUtils extends StateNotifier<bool> {
   }
 
   // --------------------------------------------------------------------
-  // contracts used in Stocks tab
+  // functions used in Stocks tab
   // --------------------------------------------------------------------
   createStock(String sMatToSet, String sQuantityToSet) async {
     isLoading = true;
@@ -191,7 +222,7 @@ class EthereumUtils extends StateNotifier<bool> {
   }
 
   // --------------------------------------------------------------------
-  // contracts used in Containers tab
+  // functions used in Containers tab
   // --------------------------------------------------------------------
   setContData(String sContToSet, String sMatToSet, String sQtyToSet,
       String sOrigToSet, String sDestToSet) async {
@@ -225,13 +256,19 @@ class EthereumUtils extends StateNotifier<bool> {
     var currentContData = await _ethClient!.call(
         contract: _contract!, function: _getContData!, params: [sContToGet]);
     String sContID = currentContData[0].toString();
-    String sMat = currentContData[1];
+    /*String sMat = currentContData[1].toString();
     String sQty = currentContData[2].toString();
-    String sOrig = currentContData[3];
-    String sDest = currentContData[4];
-    contData = "$sContID, Mat: $sMat, Qty: $sQty, Orig: $sOrig, Dest: $sDest";
+    String sOrig = currentContData[3].toString();
+    String sDest = currentContData[4].toString();
+    BigInt iSent = currentContData[5];
+    String sSent = (iSent.fromMillisecondsSinceEpoch(timestamp1 * 1000)).toString;
+    BigInt iReceived = currentContData[6];
+    String sReceived = (iSent.fromMillisecondsSinceEpoch(timestamp1 * 1000)).toString;
+    contData = "$sContID, Mat: $sMat, Qty: $sQty, Orig: $sOrig, Dest: $sDest, Sent: $sSent, Received: $sReceived";*/
+    contData = sContID;
     isLoading = false;
     state = isLoading;
+    return contData;
   }
 
   getAllContIDs() async {
@@ -240,6 +277,112 @@ class EthereumUtils extends StateNotifier<bool> {
     var currentAllMats = await _ethClient!
         .call(contract: _contract!, function: _getAllContIDs!, params: []);
     allContIDs = currentAllMats[0];
+    isLoading = false;
+    state = isLoading;
+  }
+
+  // --------------------------------------------------------------------
+  // functions used in Transport tab
+  // --------------------------------------------------------------------
+  sendContainer(String sContToSend) async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!,
+            function: _sendContainer!,
+            parameters: [sContToSend]));
+    timeSent = DateTime.now().toString();
+    isLoading = false;
+    state = isLoading;
+  }
+
+  receiveContainer(String sContToReceive) async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!,
+            function: _receiveContainer!,
+            parameters: [sContToReceive]));
+    timeReceived = DateTime.now().toString();
+    isLoading = false;
+    state = isLoading;
+  }
+
+  // --------------------------------------------------------------------
+  // functions used in Stocks tab
+  // --------------------------------------------------------------------
+  getMaterialsInLoc(String sLocToCheck) async {
+    isLoading = true;
+    state = isLoading;
+    var currentData = await _ethClient!.call(
+        contract: _contract!,
+        function: _getMaterialsInLoc!,
+        params: [sLocToCheck]);
+    matsInLoc = currentData[0].toString();
+    isLoading = false;
+    state = isLoading;
+  }
+
+  getQuantityOfMatInLoc(String sMatToCheck, String sLocToCheck) async {
+    isLoading = true;
+    state = isLoading;
+    var currentData = await _ethClient!.call(
+        contract: _contract!,
+        function: _getQuantityOfMatInLoc!,
+        params: [sMatToCheck, sLocToCheck]);
+    matQtyInLoc = currentData[0].toString();
+    isLoading = false;
+    state = isLoading;
+  }
+
+  getAllLocations() async {
+    isLoading = true;
+    state = isLoading;
+    var currentData = await _ethClient!
+        .call(contract: _contract!, function: _getAllLocations!, params: []);
+    allLocs = currentData[0].toString();
+    isLoading = false;
+    state = isLoading;
+  }
+
+  // --------------------------------------------------------------------
+  // functions used in Test menu
+  // --------------------------------------------------------------------
+  test1CreateStock() async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!,
+            function: _test1CreateStock!,
+            parameters: []));
+    isLoading = false;
+    state = isLoading;
+  }
+
+  test2SetCont() async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!, function: _test2SetCont!, parameters: []));
+    isLoading = false;
+    state = isLoading;
+  }
+
+  test3Send() async {
+    isLoading = true;
+    state = isLoading;
+    await _ethClient!.sendTransaction(
+        _credentials!,
+        Transaction.callContract(
+            contract: _contract!, function: _test3Send!, parameters: []));
     isLoading = false;
     state = isLoading;
   }

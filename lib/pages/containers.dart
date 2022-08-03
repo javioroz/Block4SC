@@ -65,10 +65,9 @@ class _ContainersState extends ConsumerState<Containers> {
                         _setDestinyController.clear();
                       }),
                 ),
-
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
-                  leading: const Icon(Icons.onetwothree),
+                  leading: const Icon(Icons.abc),
                   subtitle: TextField(
                     controller: _setContIDController,
                     maxLines: 1,
@@ -117,7 +116,6 @@ class _ContainersState extends ConsumerState<Containers> {
                   ),
                 ),
                 const Divider(), //----------------------------------------------------
-
                 ListTile(
                   leading: const Icon(Icons.remove_red_eye),
                   title: const Text('Get container data'),
@@ -142,10 +140,14 @@ class _ContainersState extends ConsumerState<Containers> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.arrow_forward),
-                  subtitle: Row(children: [
-                    const Text('Container Data: '),
-                    Text(ethUtils.contData!),
-                  ]),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                          'ContID, MatName, MatQuantity, OriginLoc, DestinationLoc, TimeSent, TimeReceived, AddressOfEditUser:'),
+                      Text(ethUtils.contData!),
+                    ],
+                  ),
                 ),
                 const Divider(), //----------------------------------------------------
 

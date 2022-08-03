@@ -2,27 +2,6 @@
 	"contractName": "Block4SC",
 	"abi": [
 		{
-			"inputs": [],
-			"name": "A_test1CreateStock",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "A_test2SetCont",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "A_test3Send",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
 			"inputs": [
 				{
 					"internalType": "string",
@@ -41,6 +20,19 @@
 			"type": "function"
 		},
 		{
+			"inputs": [],
+			"name": "data",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [
 				{
 					"internalType": "string",
@@ -56,91 +48,6 @@
 			"name": "deleteStock",
 			"outputs": [],
 			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "string",
-					"name": "_contID",
-					"type": "string"
-				}
-			],
-			"name": "receiveContainer",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "string",
-					"name": "_contID",
-					"type": "string"
-				}
-			],
-			"name": "sendContainer",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "string",
-					"name": "_contID",
-					"type": "string"
-				},
-				{
-					"internalType": "string",
-					"name": "_material",
-					"type": "string"
-				},
-				{
-					"internalType": "uint256",
-					"name": "_quantity",
-					"type": "uint256"
-				},
-				{
-					"internalType": "string",
-					"name": "_origin",
-					"type": "string"
-				},
-				{
-					"internalType": "string",
-					"name": "_destiny",
-					"type": "string"
-				}
-			],
-			"name": "setContData",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "string",
-					"name": "_data",
-					"type": "string"
-				}
-			],
-			"name": "setData",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "data",
-			"outputs": [
-				{
-					"internalType": "string",
-					"name": "",
-					"type": "string"
-				}
-			],
-			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -260,6 +167,25 @@
 			"inputs": [
 				{
 					"internalType": "string",
+					"name": "_location",
+					"type": "string"
+				}
+			],
+			"name": "getMaterialsInLoc",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
 					"name": "_material",
 					"type": "string"
 				},
@@ -278,6 +204,99 @@
 				}
 			],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_contID",
+					"type": "string"
+				}
+			],
+			"name": "receiveContainer",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_contID",
+					"type": "string"
+				}
+			],
+			"name": "sendContainer",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_contID",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "_material",
+					"type": "string"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_quantity",
+					"type": "uint256"
+				},
+				{
+					"internalType": "string",
+					"name": "_origin",
+					"type": "string"
+				},
+				{
+					"internalType": "string",
+					"name": "_destiny",
+					"type": "string"
+				}
+			],
+			"name": "setContData",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_data",
+					"type": "string"
+				}
+			],
+			"name": "setData",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "test1CreateStock",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "test2SetCont",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "test3Send",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		}
 	]

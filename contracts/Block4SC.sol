@@ -23,17 +23,19 @@ contract Block4SC {
      * v6.15      | fix bug in getMaterialsInWH() and change naming of WH by Loc and warehouse by location
      * v6.16      | mapping cont_i and loc_i and add user to the container
      *            | created functions getAllLocations() and getAllContIDs()
-     * v7.28      | constructor
+     * v7.28      | constructor (not needed)
      * v8.02      | contID changed to string
+     * v8.03      | pending to change getContData()'s output from String to List
      * productive version.
      */
     
-    string public data = "{'contID': 123456, 'material': 'doors', 'quantity': '10', 'origin': WH001, 'destiny': WH002, 'timeSent': '2022.02.03 23:02:00'}";
+    string public data = " Javi ";
     /* string public data;
     constructor(){
         data = " Hola ";
     }
     */
+    // example: "{'contID': '123456', 'material': 'doors', 'quantity': '10', 'origin': WH001, 'destiny': WH002, 'timeSent': '2022.02.03 23:02:00', 'timeSent': '2022.02.04 13:02:00', editUser: 0x1234567890....}"
     struct Container {
         string contID;
         string material;
@@ -86,7 +88,7 @@ contract Block4SC {
     }
 
     /**
-     * @dev deleteStock generates material information in location
+     * @dev deleteStock deletes material quantity in location
      * @param _material measurement
      * @param _location where the stock should be created
      */
@@ -96,9 +98,9 @@ contract Block4SC {
 
     /**
      * @dev mapContainerData in an array
-     * @param _contID id
-     * @param _material measurement
-     * @param _quantity of material
+     * @param _contID container id
+     * @param _material name
+     * @param _quantity ammount of material
      * @param _origin location
      * @param _destiny location
      */
@@ -123,7 +125,7 @@ contract Block4SC {
 
     //-------------------------------------------------------------------------------------
     /**
-     * @dev sendContainer 
+     * @dev sendContainer sets the sent date in container data as the current timestamp
      * @param _contID identifier of the container
      */
     function sendContainer(string memory _contID) public {
@@ -138,7 +140,7 @@ contract Block4SC {
     }
 
     /**
-     * @dev receiveContainer 
+     * @dev receiveContainer sets the received date in container data as the current timestamp
      * @param _contID identifier of the container
      */
     function receiveContainer(string memory _contID) public {
@@ -155,17 +157,20 @@ contract Block4SC {
     //-------------------------------------------------------------------------------------
     /**
      * @dev getQuantityOfMatInLoc in the mapping(string => mapping(uint => uint))
-     * @return container data in mapping by contID
+     * @param _material to know the quantity
+     * @param _location name of the warehouse where we want to check mat quantity
+     * @return quant_byMat_inLoc data in mapping by contID
      */
     function getQuantityOfMatInLoc(string memory _material, string memory _location) public view returns (uint){
         return quant_byMat_inLoc[_material][_location];
     }
 
     /**
-     * @dev getQuantityOfMatInLoc in the mapping(string => mapping(uint => uint))
-     * @return container data in mapping by contID
+     * @dev getQuantityInLoc in the mapping(string => mapping(uint => uint))
+     * @param _location name of the warehouse where we want to check materials
+     * @return _matList in specific location
      */
-     /*
+    
     function getMaterialsInLoc(string memory _location) public view returns (string memory){
         string memory _material;
         //string[] memory _matList;
@@ -178,18 +183,18 @@ contract Block4SC {
             if (_quant != 0){
                 //_matList[_j]=matName_by_i[_i];
                 _matList = string.concat(_matList,matName_by_i[_i]);
-                _matList = string.concat(_matList,": ");
-                _matList = string.concat(_matList, Strings.toString(_quant));
+                //_matList = string.concat(_matList,": ");
+                //_matList = string.concat(_matList, Strings.toString(_quant));
                 _matList = string.concat(_matList,", ");
                 //_j++;
             }
         }
         return _matList;
-    }*/
+    }
 
     /**
      * @dev getAllMaterials in the mapping(string => uint)
-     * @return container data in mapping by contID
+     * @return _matList of all materials ever defined in this smartcontract in mapping matName_by_i
      */
     function getAllMaterials() public view returns (string memory){
         string memory _material;
@@ -204,7 +209,7 @@ contract Block4SC {
 
     /**
      * @dev getAllLocations in the mapping(string => uint)
-     * @return locations list as a string concatenating the data in mapping by loc_i
+     * @return _locList is a list of Locations returned as a string concatenating the data in mapping locName_by_i
      */
     function getAllLocations() public view returns (string memory){
         string memory _location;
@@ -219,7 +224,7 @@ contract Block4SC {
 
     /**
      * @dev getAllContIDs in the mapping(uint => uint)
-     * @return containerIDs list as a string concatenating the data in mapping by loc_i
+     * @return _contList of container IDs as a string concatenating the data in mapping contID_by_i
      */
      
     function getAllContIDs() public view returns (string memory){
@@ -263,7 +268,7 @@ contract Block4SC {
     /**
      * @dev testCreateStock
      */
-     function A_test1CreateStock() public {
+     function test1CreateStock() public {
         // createStock(_material, _quantity);
         createStock("Secadoras_A", 200);
         createStock("Lavadoras_B", 200);
@@ -273,7 +278,7 @@ contract Block4SC {
     /**
      * @dev testSetCont
      */
-     function A_test2SetCont() public {
+     function test2SetCont() public {
          //setContData(containerID, material, quantity, originLoc, destinyWH)
         setContData("1231", "Secadoras_A", 50, "Manufacturer", "Warehouse_ES");
         setContData("1232", "Lavadoras_B", 50, "Manufacturer", "Warehouse_FR");
@@ -287,7 +292,7 @@ contract Block4SC {
     /**
      * @dev testSend
      */
-    function A_test3Send() public {
+    function test3Send() public {
         for (uint _i=1; _i<=numOfConts; _i++){
             sendContainer(contID_by_i[_i]);
             receiveContainer(contID_by_i[_i]);
