@@ -6,8 +6,6 @@ import 'pages/transport.dart';
 import 'pages/locations.dart';
 import 'pages/helloUI.dart';
 import 'main.dart';
-import '../utils/eth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeTabs extends StatelessWidget {
   const HomeTabs({Key? key}) : super(key: key);
@@ -69,7 +67,7 @@ class HomeTabs extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const <Widget>[
                   Icon(Icons.api),
-                  Text('  Block4SC  '),
+                  Text(' Block4SC '),
                   Icon(Icons.link),
                 ]),
             //title: const Text('Block4SC'),

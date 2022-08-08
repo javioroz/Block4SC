@@ -37,13 +37,12 @@ class _StocksState extends ConsumerState<Stocks> {
                   // title + create stock button
                   leading: const Icon(Icons.add_circle),
                   title: const Text('Create new stock'),
-                  subtitle: Row(children: [
-                    const Text("              "),
-                    const Text("Last created:  "),
-                    Text(ethUtils.matCreated!),
-                    const Text("  "),
-                    Text(ethUtils.qtyCreated!),
-                  ]),
+                  subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Last stock created ${ethUtils.matCreated!} with ${ethUtils.qtyCreated!} pieces in Manufacturer"),
+                      ]),
                   trailing: ElevatedButton(
                       child: const Text('create'),
                       onPressed: () {
@@ -81,13 +80,12 @@ class _StocksState extends ConsumerState<Stocks> {
                 ListTile(
                   leading: const Icon(Icons.remove_circle),
                   title: const Text('Delete stock'),
-                  subtitle: Row(children: [
-                    const Text("              "),
-                    const Text("Last deleted:  "),
-                    Text(ethUtils.matDeleted!),
-                    const Text("  "),
-                    Text(ethUtils.locDeleted!),
-                  ]),
+                  subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Last stock deleted ${ethUtils.matDeleted!} from ${ethUtils.locDeleted!}"),
+                      ]),
                   trailing: ElevatedButton(
                       child: const Text('delete'),
                       onPressed: () {
@@ -132,9 +130,11 @@ class _StocksState extends ConsumerState<Stocks> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.arrow_forward),
                   //subtitle: Text('resultAllMaterials'),
-                  subtitle: Row(children: [
-                    Text(ethUtils.allMats!),
-                  ]),
+                  subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(ethUtils.allMats!),
+                      ]),
                 ),
                 const Divider(),
               ]),

@@ -53,7 +53,8 @@ class _TransportState extends ConsumerState<Transport> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.arrow_forward),
-                  subtitle: Row(
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Container sent at: '),
                       Text(ethUtils.timeSent!),
@@ -86,7 +87,8 @@ class _TransportState extends ConsumerState<Transport> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.arrow_forward),
-                  subtitle: Row(
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Container received at: '),
                       Text(ethUtils.timeReceived!),

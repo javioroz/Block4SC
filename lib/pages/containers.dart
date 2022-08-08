@@ -35,19 +35,14 @@ class _ContainersState extends ConsumerState<Containers> {
                   // title + set cont data button
                   leading: const Icon(Icons.add_circle),
                   title: const Text('Set container data'),
-                  subtitle: Row(children: [
-                    const Text("              "),
-                    const Text("Last container saved:  "),
-                    Text(ethUtils.contSaved!),
-                    const Text("  "),
-                    Text(ethUtils.matSaved!),
-                    const Text("  "),
-                    Text(ethUtils.qtySaved!),
-                    const Text("  "),
-                    Text(ethUtils.origSaved!),
-                    const Text("  "),
-                    Text(ethUtils.destSaved!),
-                  ]),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Last container saved:  "),
+                      Text(
+                          "${ethUtils.contSaved!}, ${ethUtils.matSaved!}, ${ethUtils.qtySaved!}, ${ethUtils.origSaved!}, ${ethUtils.destSaved!}."),
+                    ],
+                  ),
                   trailing: ElevatedButton(
                       child: const Text('create'),
                       onPressed: () {
@@ -129,7 +124,7 @@ class _ContainersState extends ConsumerState<Containers> {
                 ),
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
-                  leading: const Icon(Icons.onetwothree),
+                  leading: const Icon(Icons.abc),
                   subtitle: TextField(
                     controller: _getContIDController,
                     maxLines: 1,
@@ -143,8 +138,7 @@ class _ContainersState extends ConsumerState<Containers> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                          'ContID, MatName, MatQuantity, OriginLoc, DestinationLoc, TimeSent, TimeReceived, AddressOfEditUser:'),
+                      //const Text('ContID, MatName, MatQuantity, OriginLoc, DestinationLoc, TimeSent, TimeReceived, AddressOfEditUser:'),
                       Text(ethUtils.contData!),
                     ],
                   ),
@@ -164,10 +158,12 @@ class _ContainersState extends ConsumerState<Containers> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 60.0),
                   leading: const Icon(Icons.arrow_forward),
                   //subtitle: Text('resultAllMaterials'),
-                  subtitle: Row(children: [
-                    const Text('All container IDs: '),
-                    Text(ethUtils.allContIDs!),
-                  ]),
+                  subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('All container IDs: '),
+                        Text(ethUtils.allContIDs!),
+                      ]),
                 ),
                 const Divider(),
               ]),

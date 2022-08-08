@@ -6,7 +6,6 @@ import 'homeTabs.dart';
 
 void main() async {
   // loading the environment variables to our app
-  // in this case, only GANACHE_PRIVATE_KEY
   await dotenv.load(fileName: ".env");
   runApp(const ProviderScope(child: MyApp()));
 }

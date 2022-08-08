@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +19,13 @@ class EthereumUtils extends StateNotifier<bool> {
   // RPC client (URL+WebSocket): to interact with blockchain
   // --------------------------------------------------------------------
   // constants for web3client using blockchain parameters defined in .env file
-  final String _ganacheRpcUrl = dotenv.env['RPC_URL']!;
-  final String _ganacheWsUrl = dotenv.env['RPC_WS']!;
+  final String _rpcUrl = dotenv.env['RPC_URL']!;
+  final String _wsUrl = dotenv.env['RPC_WS']!;
   final String _privateKey = dotenv.env['PRIVATE_KEY']!;
   final String _block4scAddress = dotenv.env['CONTRACT_ADDRESS']!;
+  final int _chainId = int.parse(dotenv.env['CHAIN_ID']!);
+  final int _maxGas = 1000000000000;
+  // to change RPC client change file .env (it can be ganache or infura)
   // --------------------------------------------------------------------
   // http.Client for web3 and contract info
   // --------------------------------------------------------------------
@@ -91,16 +93,13 @@ class EthereumUtils extends StateNotifier<bool> {
   // --------------------------------------------------------------------
   initialSetup() async {
     http.Client httpClient = http.Client();
-    // web3client using local ganache blockchain
-    _ethClient = Web3Client(_ganacheRpcUrl, httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_ganacheWsUrl).cast<String>();
+
+    _ethClient = Web3Client(_rpcUrl, httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(_wsUrl).cast<String>();
     });
-    // web3client using infura to connect real blockchain
-    /*
-    _ethClient = Web3Client(_infuraRpcUrl, httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_infuraWsUrl).cast<String>();
-    });
-    */
+    // or in a simpler way:
+    // _ethClient = Web3Client(_rpcUrl, httpClient);
+
     await getAbi();
     await getCredentials();
     await getDeployedContracts();
@@ -119,6 +118,7 @@ class EthereumUtils extends StateNotifier<bool> {
 
   Future<void> getCredentials() async {
     _credentials = EthPrivateKey.fromHex(_privateKey);
+    //_credentials = await _ethClient.credentialsFromPrivateKey(_privateKey);
   }
 
   Future<void> getDeployedContracts() async {
@@ -173,7 +173,9 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _setData!,
-            parameters: [dataToSet]));
+            parameters: [dataToSet],
+            maxGas: _maxGas),
+        chainId: _chainId);
     getData();
   }
 
@@ -189,7 +191,9 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _createStock!,
-            parameters: [sMatToSet, iQuantityToSet]));
+            parameters: [sMatToSet, iQuantityToSet],
+            maxGas: _maxGas),
+        chainId: _chainId);
     matCreated = sMatToSet;
     qtyCreated = sQuantityToSet;
     isLoading = false;
@@ -204,7 +208,9 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _deleteStock!,
-            parameters: [sMatToSet, sLocDeleted]));
+            parameters: [sMatToSet, sLocDeleted],
+            maxGas: _maxGas),
+        chainId: _chainId);
     matDeleted = sMatToSet;
     locDeleted = sLocDeleted;
     isLoading = false;
@@ -240,7 +246,9 @@ class EthereumUtils extends StateNotifier<bool> {
               iQtyToSet,
               sOrigToSet,
               sDestToSet
-            ]));
+            ],
+            maxGas: _maxGas),
+        chainId: _chainId);
     contSaved = sContToSet;
     matSaved = sMatToSet;
     qtySaved = sQtyToSet;
@@ -255,17 +263,26 @@ class EthereumUtils extends StateNotifier<bool> {
     state = isLoading;
     var currentContData = await _ethClient!.call(
         contract: _contract!, function: _getContData!, params: [sContToGet]);
-    String sContID = currentContData[0].toString();
-    /*String sMat = currentContData[1].toString();
-    String sQty = currentContData[2].toString();
-    String sOrig = currentContData[3].toString();
-    String sDest = currentContData[4].toString();
-    BigInt iSent = currentContData[5];
-    String sSent = (iSent.fromMillisecondsSinceEpoch(timestamp1 * 1000)).toString;
-    BigInt iReceived = currentContData[6];
-    String sReceived = (iSent.fromMillisecondsSinceEpoch(timestamp1 * 1000)).toString;
-    contData = "$sContID, Mat: $sMat, Qty: $sQty, Orig: $sOrig, Dest: $sDest, Sent: $sSent, Received: $sReceived";*/
-    contData = sContID;
+    //String sContData = currentContData[0].toString();
+    String sContID = currentContData[0][0].toString();
+    String sMat = currentContData[0][1].toString();
+    String sQty = currentContData[0][2].toString();
+    String sOrig = currentContData[0][3].toString();
+    String sDest = currentContData[0][4].toString();
+    int iSent = int.parse(currentContData[0][5].toString());
+    String sSent;
+    iSent == 0
+        ? sSent = "Not yet"
+        : sSent =
+            (DateTime.fromMillisecondsSinceEpoch(iSent * 1000)).toString();
+    int iReceived = int.parse(currentContData[0][6].toString());
+    String sReceived;
+    iReceived == 0
+        ? sReceived = "Not yet"
+        : sReceived =
+            (DateTime.fromMillisecondsSinceEpoch(iReceived * 1000)).toString();
+    contData =
+        "ContID: $sContID,  Mat: $sMat,  Qty: $sQty,  Orig: $sOrig,  Dest: $sDest,  Sent: $sSent,  Received: $sReceived";
     isLoading = false;
     state = isLoading;
     return contData;
@@ -292,7 +309,9 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _sendContainer!,
-            parameters: [sContToSend]));
+            parameters: [sContToSend],
+            maxGas: _maxGas),
+        chainId: _chainId);
     timeSent = DateTime.now().toString();
     isLoading = false;
     state = isLoading;
@@ -306,7 +325,9 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _receiveContainer!,
-            parameters: [sContToReceive]));
+            parameters: [sContToReceive],
+            maxGas: _maxGas),
+        chainId: _chainId);
     timeReceived = DateTime.now().toString();
     isLoading = false;
     state = isLoading;
@@ -360,7 +381,9 @@ class EthereumUtils extends StateNotifier<bool> {
         Transaction.callContract(
             contract: _contract!,
             function: _test1CreateStock!,
-            parameters: []));
+            parameters: [],
+            maxGas: 100000),
+        chainId: _chainId);
     isLoading = false;
     state = isLoading;
   }
@@ -371,7 +394,11 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!, function: _test2SetCont!, parameters: []));
+            contract: _contract!,
+            function: _test2SetCont!,
+            parameters: [],
+            maxGas: 100000),
+        chainId: _chainId);
     isLoading = false;
     state = isLoading;
   }
@@ -382,7 +409,11 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!, function: _test3Send!, parameters: []));
+            contract: _contract!,
+            function: _test3Send!,
+            parameters: [],
+            maxGas: 100000),
+        chainId: _chainId);
     isLoading = false;
     state = isLoading;
   }
