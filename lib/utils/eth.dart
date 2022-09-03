@@ -24,7 +24,7 @@ class EthereumUtils extends StateNotifier<bool> {
   final String _privateKey = dotenv.env['PRIVATE_KEY']!;
   final String _block4scAddress = dotenv.env['CONTRACT_ADDRESS']!;
   final int _chainId = int.parse(dotenv.env['CHAIN_ID']!);
-  final int _maxGas = 1000000000000;
+  // final int _maxGas = 1000000000000;
   // to change RPC client change file .env (it can be ganache or infura)
   // --------------------------------------------------------------------
   // http.Client for web3 and contract info
@@ -171,10 +171,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _setData!,
-            parameters: [dataToSet],
-            maxGas: _maxGas),
+          contract: _contract!,
+          function: _setData!,
+          parameters: [dataToSet], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     getData();
   }
@@ -189,10 +189,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _createStock!,
-            parameters: [sMatToSet, iQuantityToSet],
-            maxGas: _maxGas),
+          contract: _contract!,
+          function: _createStock!,
+          parameters: [sMatToSet, iQuantityToSet], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     matCreated = sMatToSet;
     qtyCreated = sQuantityToSet;
@@ -206,10 +206,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _deleteStock!,
-            parameters: [sMatToSet, sLocDeleted],
-            maxGas: _maxGas),
+          contract: _contract!,
+          function: _deleteStock!,
+          parameters: [sMatToSet, sLocDeleted], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     matDeleted = sMatToSet;
     locDeleted = sLocDeleted;
@@ -238,16 +238,16 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _setContData!,
-            parameters: [
-              sContToSet,
-              sMatToSet,
-              iQtyToSet,
-              sOrigToSet,
-              sDestToSet
-            ],
-            maxGas: _maxGas),
+          contract: _contract!,
+          function: _setContData!,
+          parameters: [
+            sContToSet,
+            sMatToSet,
+            iQtyToSet,
+            sOrigToSet,
+            sDestToSet
+          ], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     contSaved = sContToSet;
     matSaved = sMatToSet;
@@ -307,10 +307,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _sendContainer!,
-            parameters: [sContToSend],
-            maxGas: _maxGas),
+          contract: _contract!,
+          function: _sendContainer!,
+          parameters: [sContToSend], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     timeSent = DateTime.now().toString();
     isLoading = false;
@@ -323,10 +323,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _receiveContainer!,
-            parameters: [sContToReceive],
-            maxGas: _maxGas),
+          contract: _contract!,
+          function: _receiveContainer!,
+          parameters: [sContToReceive], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     timeReceived = DateTime.now().toString();
     isLoading = false;
@@ -379,10 +379,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _test1CreateStock!,
-            parameters: [],
-            maxGas: 100000),
+          contract: _contract!,
+          function: _test1CreateStock!,
+          parameters: [], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     isLoading = false;
     state = isLoading;
@@ -394,10 +394,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _test2SetCont!,
-            parameters: [],
-            maxGas: 100000),
+          contract: _contract!,
+          function: _test2SetCont!,
+          parameters: [], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     isLoading = false;
     state = isLoading;
@@ -409,10 +409,10 @@ class EthereumUtils extends StateNotifier<bool> {
     await _ethClient!.sendTransaction(
         _credentials!,
         Transaction.callContract(
-            contract: _contract!,
-            function: _test3Send!,
-            parameters: [],
-            maxGas: 100000),
+          contract: _contract!,
+          function: _test3Send!,
+          parameters: [], /*maxGas: _maxGas*/
+        ),
         chainId: _chainId);
     isLoading = false;
     state = isLoading;

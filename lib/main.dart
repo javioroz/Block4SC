@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'homeTabs.dart';
+import 'utils/theme.dart';
 
 void main() async {
   // loading the environment variables to our app
@@ -17,24 +18,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Block4SC',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.green[800],
-        appBarTheme: AppBarTheme(
-          //elevation: 0,
-          backgroundColor: Colors.green[800],
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.green[800])),
-        ),
-      ),
-      darkTheme: ThemeData.dark(),
-      //------------------------------------------------------
-      home: HomeTabs(),
-    );
+    return ValueListenableBuilder<ThemeMode>(
+        valueListenable: themeNotifier,
+        builder: (context, currentMode, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Block4SC',
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            themeMode: currentMode,
+            //------------------------------------------------------
+            home: HomeTabs(),
+          );
+        });
   }
 }

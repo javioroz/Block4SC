@@ -12,19 +12,19 @@ class HomeTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _kTabPages = <Widget>[
+    final kTabPages = <Widget>[
       const Center(child: Stocks()),
       const Center(child: Containers()),
       const Center(child: Transport()),
       const Center(child: Locations()),
     ];
-    final _kTabs = <Tab>[
+    final kTabs = <Tab>[
       const Tab(icon: Icon(Icons.auto_awesome_motion), text: 'Stocks'),
       const Tab(icon: Icon(Icons.archive), text: 'Containers'),
       const Tab(icon: Icon(Icons.double_arrow), text: 'Transport'),
       const Tab(icon: Icon(Icons.warehouse), text: 'Locations'),
     ];
-    final _kDrawerHeader = UserAccountsDrawerHeader(
+    final kDrawerHeader = UserAccountsDrawerHeader(
       accountName: const Text('Dapp: Blockchain 4 Supply Chain'),
       accountEmail: const Text('Developer: JaviOroz@proton.me'),
       currentAccountPicture: CircleAvatar(
@@ -33,9 +33,9 @@ class HomeTabs extends StatelessWidget {
         child: Image.asset('assets/img/B4SC_icon_512.png'),
       ),
     );
-    final _kDrawerItems = ListView(
+    final kDrawerItems = ListView(
       children: <Widget>[
-        _kDrawerHeader,
+        kDrawerHeader,
         ListTile(
           title: const Text('Hello'),
           onTap: () => Navigator.of(context).push(_GoToHello()),
@@ -46,11 +46,30 @@ class HomeTabs extends StatelessWidget {
           onTap: () => Navigator.of(context).push(_GoToTests()),
         ),
         const Divider(),
-        ListTile(
-          title: const Text('Change Dark/Light Mode'),
-          onTap: () {},
-          trailing: Icon(Icons.dark_mode),
-        ),
+      ],
+    );
+    final kAppBar = AppBar(
+      title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Icon(Icons.api),
+            Text(' Block4SC '),
+            Icon(Icons.link),
+          ]),
+      bottom: TabBar(
+        tabs: kTabs,
+      ),
+      actions: [
+        IconButton(
+            icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
+                ? Icons.dark_mode
+                : Icons.light_mode),
+            onPressed: () {
+              MyApp.themeNotifier.value =
+                  MyApp.themeNotifier.value == ThemeMode.light
+                      ? ThemeMode.dark
+                      : ThemeMode.light;
+            })
       ],
     );
     return GestureDetector(
@@ -60,39 +79,13 @@ class HomeTabs extends StatelessWidget {
         // when tapping on any part of screen
       },
       child: DefaultTabController(
-        length: _kTabs.length,
+        length: kTabs.length,
         child: Scaffold(
-          appBar: AppBar(
-            title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Icon(Icons.api),
-                  Text(' Block4SC '),
-                  Icon(Icons.link),
-                ]),
-            //title: const Text('Block4SC'),
-            //leading: Image.asset('assets/img/B4SC_icon.png'),
-            backgroundColor: Colors.green,
-            bottom: TabBar(
-              tabs: _kTabs,
-            ),
-            actions: [
-              IconButton(
-                  icon: Icon(MyApp.themeNotifier.value == ThemeMode.light
-                      ? Icons.dark_mode
-                      : Icons.light_mode),
-                  onPressed: () {
-                    MyApp.themeNotifier.value =
-                        MyApp.themeNotifier.value == ThemeMode.light
-                            ? ThemeMode.dark
-                            : ThemeMode.light;
-                  })
-            ],
-          ),
+          appBar: kAppBar,
           body: TabBarView(
-            children: _kTabPages,
+            children: kTabPages,
           ),
-          drawer: Drawer(child: _kDrawerItems),
+          drawer: Drawer(child: kDrawerItems),
         ),
       ),
     );
